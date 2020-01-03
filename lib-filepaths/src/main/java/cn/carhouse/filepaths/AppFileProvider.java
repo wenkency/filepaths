@@ -1,11 +1,10 @@
 package cn.carhouse.filepaths;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-
-import androidx.core.content.FileProvider;
 
 import java.io.File;
 
@@ -31,17 +30,14 @@ public class AppFileProvider {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String type = "application/vnd.android.package-archive";
+        Uri uriForFile = getUriForFile(context, apkFile);
+        intent.setDataAndType(uriForFile, type);
+        if (!(context instanceof Activity)) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
         if (Build.VERSION.SDK_INT >= 24) {
-            Uri uriForFile = FileProvider.getUriForFile(
-                    context,
-                    context.getPackageName() + FILE_PROVIDER,
-                    apkFile
-            );
-            intent.setDataAndType(uriForFile, type);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        } else {
-            intent.setDataAndType(Uri.fromFile(apkFile), type);
         }
         context.startActivity(intent);
     }
@@ -73,7 +69,7 @@ public class AppFileProvider {
     }
 
     private static Uri getUriForFile24(Context context, File file) {
-        Uri fileUri = androidx.core.content.FileProvider.getUriForFile(context,
+        Uri fileUri = AppProvider.getUriForFile(context,
                 context.getPackageName() + FILE_PROVIDER, file);
         return fileUri;
     }
