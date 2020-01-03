@@ -8,8 +8,8 @@
         android:allowBackup="true"
         android:supportsRtl="true">
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.FileProvider"
+            android:name="cn.carhouse.filepaths.AppProvider"
+            android:authorities="${applicationId}.AppProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -15,7 +15,7 @@ import java.io.File;
 
 public class AppFileProvider {
 
-    public static final String FILE_PROVIDER = ".FileProvider";
+    public static final String FILE_PROVIDER = ".AppProvider";
 
     /**
      * 安装APK
